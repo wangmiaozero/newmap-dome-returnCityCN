@@ -1,0 +1,179 @@
+<html>  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:100%;}
+		p{margin-left:5px; font-size:14px;}
+		dl,dt,dd,ul,li{
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+	dt{
+		font-size:14px;
+		font-family:"微软雅黑";
+		font-weight:bold;
+		border-bottom:1px dotted #000;
+		padding:5px 0 5px 5px;
+		margin:5px 0;
+	}
+	dd{
+		padding:5px 0 0 5px;
+	}
+	li{
+		line-height:28px;
+	}
+    
+    .BMap_bubble_title{  
+        color:black;  
+        font-size:13px;  
+        font-weight: bold;  
+        text-align:left;  
+    }  
+    .BMap_pop div:nth-child(1){  
+        border-radius:7px 0 0 0;  
+    }  
+    .BMap_pop div:nth-child(3){  
+        border-radius:0 7px 0 0;background:#ABABAB;;  
+        /*background: #ABABAB;*/  
+        width:23px;  
+        width:0px;height;0px;  
+    }  
+    .BMap_pop div:nth-child(3) div{  
+        border-radius:7px;  
+    }  
+    .BMap_pop div:nth-child(5){  
+        border-radius:0 0 0 7px;  
+    }  
+    .BMap_pop div:nth-child(5) div{  
+        border-radius:7px;  
+    }  
+    .BMap_pop div:nth-child(7){  
+        border-radius:0 0 7px 0 ;  
+    }  
+    .BMap_pop div:nth-child div(7){  
+        border-radius:7px ;  
+    }  
+		
+	</style>
+<title>Hello,world</title>  
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=uDHXPSG3IeHvuFOStV2cpfUK63dM96rA"></script> 
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script> 
+</head>  
+<body>  
+<div id="allmap"></div>	
+</body>  
+</html>  
+ <script type="text/javascript">
+	// 百度地图API功能	
+	var map = new BMap.Map("allmap",{enableMapClick:false});
+	map.centerAndZoom(new BMap.Point(116.417854,39.921988), 14);
+	map.enableScrollWheelZoom(true); //启用滚轮放大缩小
+	map.addControl(new BMap.NavigationControl()); //放大缩小控件
+	map.addControl(new BMap.ScaleControl()); //比例尺空间
+	map.addControl(new BMap.OverviewMapControl());//右下角缩图控件
+ 
+//第一组点
+	var marklist1=[];
+	var title=[];
+	var data_info = [[116.417854,39.921988,"信息点1","地址：</br>电话：<br>","img/p1/img1.jpg"],
+			[116.406605,39.921585,"信息点2","地址：</br>电话：<br>","img/p1/img2.jpg"],
+			[116.412222,39.912345,"信息点3","地址：</br>电话：<br>","img/p1/img3.jpg"],
+			[116.413222,39.914145,"信息点4","地址：</br>电话：<br>","img/p1/img4.jpg"],
+					];
+ 
+	var opts = {
+				width : 280,     
+				height: 100,     
+				title : " " , 
+				enableMessage:true,
+			   };
+	
+	var myIcon1 = new BMap.Icon("./img/label1.png", new BMap.Size(28,25));
+        for(var i=0,m=data_info.length;i<m;i++){		 
+			var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]),{icon:myIcon1});  
+			var t1 = data_info[i][2];
+			var content = "<h4 style='color:#CC5522;font-size:14px;margin:0 0 5px 0;padding:0.2em 0'>" + data_info[i][2] + "</h4>"+ 
+			"<img style='float:right;margin:4px' id='imgDemo' src='"+data_info[i][4]+"' width='139' height='104'/>"+
+			"<p style='font:12px arial,sans-serif;margin:0;line-height:1.5;'>"+data_info[i][3]+"</p>"+"</div>";
+			marklist1.push(marker);
+			title.push(t1);
+				map.addOverlay(marker);
+				var label = new BMap.Label(title[i],{offset:new BMap.Size(30,0)});//label.setStyle({ }); 
+				marker.setLabel(label);
+				addClickHandler(content, marker);
+				marklist1.forEach(function(item){item.show();})
+				
+	}
+		
+	
+	function addClickHandler(content,marker){
+		$("marker").toggle(function(){
+			openInfo(content,e);
+			marker.getLabel().hide(); 		
+		},function(){
+			map.closeInfoWindow();	
+			marker.getLabel().show();
+		});
+	}
+		
+	 
+	function openInfo(content,e){
+		var p = e.target;
+		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		var infoWindow = new BMap.InfoWindow(content,opts);  
+		map.openInfoWindow(infoWindow,point); 	
+		infoWindow.addEventListener('open',function(type, target, point){ //窗口打开是，隐藏自带的关闭按钮
+		    $('.BMap_pop>img').hide();
+		});
+	}
+ 
+// 添加新的标注功能
+	var marklist2=[];
+	var title2=[];
+	var data_info2 = [
+		 [116.471821,39.924896,"信息点5","地址：</br>电话：<br>"],
+		 [116.460898,39.905637,"信息点6","地址：</br>电话：<br>"],
+		 [116.44825,39.935519,"信息点7","地址：</br>电话：<br>"],
+		 [116.479295,39.890581,"信息点8","地址：</br>电话：<br>"],
+		];
+	var myIcon2 = new BMap.Icon("./img/label2.png", new BMap.Size(28,25));
+	 for(var i=0,j=data_info2.length;i<j;i++){		 
+			var m2 = new BMap.Marker(new BMap.Point(data_info2[i][0],data_info2[i][1]),{icon:myIcon2}); 
+			var t2 = data_info2[i][2];
+			var c2 = "<h4 style='color:#CC5522;font-size:14px;margin:0 0 5px 0;padding:0.2em 0'>" + data_info2[i][2] + "</h4>"+ 
+			"<p style='font:12px arial,sans-serif;margin:0;line-height:1.5;'>"+data_info2[i][3]+"</p>"+"</div>";
+			marklist2.push(m2);
+			title2.push(t2);
+			map.addOverlay(m2);
+			var label2 = new BMap.Label(title2[i],{offset:new BMap.Size(30,0)});
+			m2.setLabel(label2);
+			addClickHandler(c2,m2);
+			marklist2.forEach(function(item){item.show();})
+	}
+ 
+	// 添加新的标注功能
+		var marklist3=[];
+		var title3=[];
+		var data_info3 = [[116.390183,39.890359,"信息点9","地址：</br>电话：<br>"],
+			 [116.389321,39.927773,"信息点10","地址：</br>电话：<br>"],
+			 [116.362875,39.900988,"信息点11","地址：</br>电话：<br>"],
+			 [116.372936,39.926002,"信息点12","地址：</br>电话：<br>"],
+			];
+		var myIcon3 = new BMap.Icon("./img/label3.png", new BMap.Size(28,25));
+		 for(var i=0,j=data_info3.length;i<j;i++){		 
+				var m3 = new BMap.Marker(new BMap.Point(data_info3[i][0],data_info3[i][1]),{icon:myIcon3}); 
+				var t3 = data_info3[i][2];
+				var c3 = "<h4 style='color:#CC5522;font-size:14px;margin:0 0 5px 0;padding:0.2em 0'>" + data_info3[i][2] + "</h4>"+ 
+				"<p style='font:12px arial,sans-serif;margin:0;line-height:1.5;'>"+data_info3[i][3]+"</p>"+"</div>";
+				marklist3.push(m3);
+				title3.push(t3);
+				map.addOverlay(m3);
+				var label3 = new BMap.Label(title3[i],{offset:new BMap.Size(30,0)});
+				m3.setLabel(label3);
+				addClickHandler(c3,m3);			
+		}
+ 
+</script>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>获取ip地址</title>
+</head>
+<body >
+
+</body>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script>
+    //浏览器返回结果：（前提是需要有网络）
+    //var returnCitySN = {"cip": "14.153.20.119", "cid": "440300", "cname": "广东省深圳市"};
+    console.log(returnCitySN.cip);
+    var ip = returnCitySN.cip;
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(ip);
+    map.centerAndZoom(point,12);
+
+    function myFun(result){
+        var cityName = result.name;
+        map.setCenter(cityName);
+        alert("当前定位城市:"+cityName);
+    }
+    var myCity = new BMap.LocalCity();
+    myCity.get(myFun);
+</script>
+
+</html>

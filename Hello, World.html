@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        html {
+            height: 100%
+        }
+
+        body {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+
+        #container {
+            height: 100%
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Te3KBpHdvzUouk7AnUyhcevrxB5Fbh6y"></script>
+</head>
+
+<body>
+    <!--//地图需要一个HTML元素作为容器，这样才能展现到页面上。这里我们创建了一个div元素。>-->
+    <div id="container"></div>
+    <!-- <script>
+        //位于BMap命名空间下的Map类表示地图，通过new操作符可以创建一个地图实例。其参数可以是元素id也可以是元素对象。
+        var map = new BMap.Map("container"); 
+        //这里我们使用BMap命名空间下的Point类来创建一个坐标点。Point类描述了一个地理坐标点，
+        //其中116.404表示经度，39.915表示纬度。（为天安门坐标）
+        var point = new BMap.Point(116.404, 39.915);
+        //在创建地图实例后，我们需要对其进行初始化，BMap.Map.centerAndZoom()方法要求设置中心点坐标和地图级别。
+        // 地图必须经过初始化才可以执行其他操作。
+        map.centerAndZoom(point, 15);  
+    </script> -->
+    <script>
+        var map = new BMap.Map("container");
+        var point = new BMap.Point(116.404, 39.915);
+        map.centerAndZoom(point, 15);
+        window.setTimeout(function () {
+            map.panTo(new BMap.Point(116.409, 39.918));
+        }, 2000)
+    </script>
+</body>
+
+</html>

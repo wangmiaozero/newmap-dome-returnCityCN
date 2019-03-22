@@ -1,0 +1,135 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html,#allmap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin:0;
+            font-family:"微软雅黑";
+        }
+    </style>
+    <style>
+        .body-loading{
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            z-index:997;
+        }
+        .loading-shade{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index:998;
+            background-color:#000; opacity:0.3; filter:alpha(opacity=30);
+        }
+        .loading-container{
+            z-index: 999;
+            width: 37px;
+            height: 37px;
+            top: 50%;
+            left: 50%;
+            margin-left:-19px;
+            margin-top:-19px;
+            border-radius: 100%;
+            background: 0 0;
+            box-shadow: none;
+            border: none;
+            position:absolute;
+        }
+        .loading-gif{
+            width: 37px;
+            height: 37px;
+            background: url(${base}/resources/images/loading.gif) no-repeat;
+        }
+    </style>
+    <jsp:include page="../common/meta.jsp"></jsp:include>
+    <title>地图展示</title>
+</head>
+<body>
+<div id="allmap"></div>
+</body>
+</html>
+<!--_footer 作为公共模版分离出去-->
+<jsp:include page="../common/footer.jsp"></jsp:include>
+<script src="./jquery-3.1.0.min.js"></script>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DD10f0575545bcd69168ca13b90a6bb9"></script>
+<script type="text/javascript">
+    //百度地图API功能
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom(new BMap.Point(109.518557,18.258461), 13);  // 初始化地图,设置中心点坐标和地图级别
+    map.enableScrollWheelZoom();
+
+    var points = [];
+    var memo = '${memo}';
+    // 随机生成路线颜色
+    var getRandomColor = function(){
+        return '#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6);
+    }
+
+    if (memo != null && memo != "" && memo != undefined) {
+        var arr = memo.split("-");
+        var count = 0;
+        for (var i=0; i<arr.length; i++) {
+            var obj = arr[i].split(",");
+            var lat = obj[1];
+            var lng = obj[0];
+            if (lng != "" && lng != null && lng != undefined) {
+                points.push(new BMap.Point(lng, lat));
+                count ++ ;
+            }
+        }
+        if (count > 0) {
+            addLoading(); // 模态框
+            var startPoint = points[0]; // 起点
+            var endPoint = points[points.length - 1]; // 终点
+            // 起点
+            var myIcon = new BMap.Icon("/resources/images/qidian.png", new BMap.Size(18, 24), {
+                imageSize:new BMap.Size(18, 24), // 设置图片大小
+                anchor: new BMap.Size(10,25)
+            });
+            map.addOverlay(new BMap.Marker(startPoint, {icon: myIcon}));
+            // 中心点
+            var center = Math.ceil(count / 2);
+            map.centerAndZoom(points[center]);
+
+
+            //创建线路
+            var polyline = new BMap.Polyline(
+                points, //所有的GPS坐标点
+                {
+                    strokeColor : getRandomColor(), // 线路颜色
+                    //strokeColor : "#9F79EE", // 线路颜色
+                    strokeWeight : 4, //线路大小
+                });
+            //绘制线路
+            map.addOverlay(polyline);
+            removeLoading();
+
+            // 终点
+            var myIcon2 = new BMap.Icon("/resources/images/zhongdian.png", new BMap.Size(18, 24), {
+                imageSize:new BMap.Size(18, 24), // 设置图片大小
+                anchor: new BMap.Size(10,25)
+            });
+            map.addOverlay(new BMap.Marker(endPoint, {icon: myIcon2}));
+
+        }
+    }
+
+    function addLoading(){
+        $("body").append('<div class="body-loading"><div class="loading-shade"></div><div class="loading-container"><div class="loading-gif"></div></div></div>');
+    }
+
+    function removeLoading(){
+        $("body").find(".body-loading").remove();
+    }
+</script>
