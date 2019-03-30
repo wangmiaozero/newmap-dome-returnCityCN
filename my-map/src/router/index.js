@@ -8,6 +8,8 @@ import mymap3 from '@/components/mymap3'
 import mapinfowinwod from '@/components/js-mapinfowinwod.vue'
 import mapinfowinwod1 from '@/components/js-mapinfowinwod1.vue'
 import maphuaxianlu from '@/components/huaxianlu'
+import Cordova from '@/components/Cordova'
+import dingwei from '@/components/dingwei'
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +53,16 @@ export default new Router({
       path:'/huaxianlu',
       name:'huaxianlu',
       component:maphuaxianlu
+    },
+    {
+      path:'/Cordova',
+      name:'Cordova',
+      component:Cordova
+    },
+    {
+      path:'/dingwei',
+      name:'dingwei',
+      component:dingwei
     }
   ]
 })
