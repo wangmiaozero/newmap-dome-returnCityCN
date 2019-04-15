@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+           function caculateLL(lat1, lng1, lat2, lng2) {
+var radLat1 = lat1 * Math.PI / 180.0;
+var radLat2 = lat2 * Math.PI / 180.0;
+var a = radLat1 - radLat2;
+var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+s = s * 6378.137;
+s = Math.round(s * 10000) / 10000;
+console.log(s.toFixed(1));
+return s
+
+};
+//31.250555,121.487536,31.164838,121.410811
+caculateLL(31.250555,121.487536,31.164838,121.410811)
+    </script>
+</body>
+</html>
