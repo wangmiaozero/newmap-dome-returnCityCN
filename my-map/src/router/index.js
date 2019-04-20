@@ -10,6 +10,7 @@ import mapinfowinwod1 from '@/components/js-mapinfowinwod1.vue'
 import maphuaxianlu from '@/components/huaxianlu'
 import Cordova from '@/components/Cordova'
 import dingwei from '@/components/dingwei'
+import goodsinfo from '@/components/goodsinfo'
 Vue.use(Router)
 
 export default new Router({
@@ -63,6 +64,10 @@ export default new Router({
       path:'/dingwei',
       name:'dingwei',
       component:dingwei
+    },{
+      path:'/goodsinfo',
+      name:'goodsinfo',
+      component:goodsinfo
     }
   ]
 })
