@@ -11,6 +11,8 @@ import maphuaxianlu from '@/components/huaxianlu'
 import Cordova from '@/components/Cordova'
 import dingwei from '@/components/dingwei'
 import goodsinfo from '@/components/goodsinfo'
+import dingwei2 from '@/components/dingwei2'
+import mapmap from '@/components/mapmap'
 Vue.use(Router)
 
 export default new Router({
@@ -68,6 +70,17 @@ export default new Router({
       path:'/goodsinfo',
       name:'goodsinfo',
       component:goodsinfo
+    },
+    {
+      path:'/dingwei2',
+      name:'dingwei',
+      component:dingwei2
+    },
+    {
+      path:'/mapmap',
+      name:'mapmap',
+      component:mapmap
     }
+ 
   ]
 })
