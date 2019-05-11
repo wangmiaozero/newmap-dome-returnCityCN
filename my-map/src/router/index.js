@@ -13,6 +13,7 @@ import dingwei from '@/components/dingwei'
 import goodsinfo from '@/components/goodsinfo'
 import dingwei2 from '@/components/dingwei2'
 import mapmap from '@/components/mapmap'
+import calendar from '@/components/calendar'
 Vue.use(Router)
 
 export default new Router({
@@ -80,6 +81,11 @@ export default new Router({
       path:'/mapmap',
       name:'mapmap',
       component:mapmap
+    },
+    {
+      path:"/calendar",
+      name:'calendar',
+      component:calendar
     }
  
   ]
